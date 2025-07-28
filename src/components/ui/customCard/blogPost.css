@@ -1,0 +1,7 @@
+.delete_post {
+    background-color: red;
+    padding: 4px;
+    cursor: pointer;
+    color: white;
+    border-radius: 10%;
+}

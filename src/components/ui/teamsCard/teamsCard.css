@@ -1,0 +1,22 @@
+.teams_card_container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 50%;
+    background-color: white;
+    padding: 0px;
+    /* max-height: 100px; */
+    height: 200px;
+    margin: 20px 0px;
+    border-radius: 10px;
+
+
+}
+
+.teams_card_image_container {
+    width: 30%;
+}
+
+.teams_card_image_container>img {
+    width: 100%;
+}

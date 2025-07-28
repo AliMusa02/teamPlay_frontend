@@ -1,0 +1,54 @@
+.invitation_card_container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    height: 100px;
+    background-color: rgb(255, 255, 255);
+    margin: 20px 0px;
+    border-radius: 10px;
+}
+
+.invitations_card_left_button {
+    width: 30%;
+}
+
+.invitations_card_left_button_accept {
+    width: 45%;
+    margin-right: 10px;
+    padding: 5px;
+    background-color: brown;
+    cursor: pointer;
+    border-radius: 5px;
+    color: white;
+}
+
+.invitations_card_left_button_decline {
+    width: 45%;
+    padding: 5px;
+    background-color: blue;
+    cursor: pointer;
+    border-radius: 5px;
+    color: white;
+}
+
+.invitation_card_left_image_cont {
+    width: 40%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+}
+
+.invitation_card_left_container {
+    display: flex;
+    width: 35%;
+    align-items: center;
+
+}
+
+.invitation_card_left_image_cont>img {
+    width: 70%;
+    border-radius: 50%;
+    cursor: pointer;
+}
