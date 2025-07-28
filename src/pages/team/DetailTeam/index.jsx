@@ -248,87 +248,166 @@ const TeamDetail = () => {
   const isMember = teamData.members?.some(
     (member) => member.user.id === userLoggedIn.data?.user.id
   );
-  useEffect(() => {
-    const user = userLoggedIn.data?.user;
-    const userTeam = user?.team;
-    const isCaptain = user?.id === userTeam?.captain;
-    const isSameTeam = userTeam?.id === teamData?.id;
-    const hasTeam = Boolean(userTeam);
+  // useEffect(() => {
+  //   const user = userLoggedIn.data?.user;
+  //   const userTeam = user?.team;
+  //   const isCaptain = user?.id === userTeam?.captain;
+  //   const isSameTeam = userTeam?.id === teamData?.id;
+  //   const hasTeam = Boolean(userTeam);
 
-    if (isMember) {
+  //   if (isMember) {
+  //     if (isCaptain) {
+  //       if (!isSameTeam) {
+  //         // Kapitan və başqa komandanın səhifəsindədir
+  //         setActionButton(
+  //           <button
+  //             className="text-1xl font-bold text-white rounded-[5px] cursor-pointer bg-[blue] p-1.5"
+  //             onClick={() => setOpenInviteModal(true)}
+  //           >
+  //             Invite to match
+  //           </button>
+  //         );
+  //       } else {
+  //         // Kapitan və öz komandasının səhifəsindədir
+  //         setActionButton(
+  //           <button
+  //             className="text-1xl font-bold text-white rounded-[5px] cursor-pointer bg-green-600 p-1.5"
+  //             onClick={() => navigate(`/teams/update/${teamData?.id}`)}
+  //           >
+  //             Update Team
+  //           </button>
+  //         );
+  //       }
+  //     } else {
+  //       if (isMember) {
+  //         setActionButton(
+  //           <Button
+  //             variant="contained"
+  //             onClick={leaveTeam}
+  //             sx={{
+  //               textTransform: "none",
+  //               backgroundColor: "#FDC700",
+  //               "&:hover": { backgroundColor: "#f1d779" },
+  //             }}
+  //           >
+  //             Leave Team
+  //           </Button>
+  //         );
+  //       } else {
+  //         setActionButton(
+  //           <Button
+  //             variant="contained"
+  //             onClick={handleSendRequest}
+  //             sx={{
+  //               textTransform: "none",
+  //               backgroundColor: "#FDC700",
+  //               "&:hover": { backgroundColor: "#f1d779" },
+  //             }}
+  //           >
+  //             Join team
+  //           </Button>
+  //         );
+  //         // setActionButton(null); // Başqa komandadadır və kapitan deyil
+  //       }
+  //     }
+  //   } else {
+  //     if (!isMember) {
+  //       setActionButton(
+  //         <Button
+  //           variant="contained"
+  //           onClick={handleSendRequest}
+  //           sx={{
+  //             textTransform: "none",
+  //             backgroundColor: "#FDC700",
+  //             "&:hover": { backgroundColor: "#f1d779" },
+  //           }}
+  //         >
+  //           Join Team
+  //         </Button>
+  //       );
+  //     }
+  //     // Komandası yoxdur
+  //   }
+  // }, [isMember]);
+
+  useEffect(() => {
+    if (!teamData || !userLoggedIn?.data?.user) return;
+
+    const loggedInUser = userLoggedIn.data.user;
+    const myTeam = loggedInUser.team; // Your team (can be null)
+    const isViewingOwnTeam = myTeam?.id === teamData.id;
+    const isMemberOfViewingTeam = teamData.members?.some(
+      (member) => member.user.id === loggedInUser.id
+    );
+    const isCaptain = loggedInUser.id === myTeam?.captain;
+
+    // Case 1: You are viewing your own team
+    if (isViewingOwnTeam) {
       if (isCaptain) {
-        if (!isSameTeam) {
-          // Kapitan və başqa komandanın səhifəsindədir
-          setActionButton(
-            <button
-              className="text-1xl font-bold text-white rounded-[5px] cursor-pointer bg-[blue] p-1.5"
-              onClick={() => setOpenInviteModal(true)}
-            >
-              Invite to match
-            </button>
-          );
-        } else {
-          // Kapitan və öz komandasının səhifəsindədir
-          setActionButton(
-            <button
-              className="text-1xl font-bold text-white rounded-[5px] cursor-pointer bg-green-600 p-1.5"
-              onClick={() => navigate(`/teams/update/${teamData?.id}`)}
-            >
-              Update Team
-            </button>
-          );
-        }
+        setActionButton(
+          <button
+            className="text-1xl font-bold text-white rounded-[5px] cursor-pointer bg-green-600 p-1.5"
+            onClick={() => navigate(`/teams/update/${teamData?.id}`)}
+          >
+            Update Team
+          </button>
+        );
       } else {
-        if (isMember) {
-          setActionButton(
-            <Button
-              variant="contained"
-              onClick={leaveTeam}
-              sx={{
-                textTransform: "none",
-                backgroundColor: "#FDC700",
-                "&:hover": { backgroundColor: "#f1d779" },
-              }}
-            >
-              Leave Team
-            </Button>
-          );
-        } else {
-          setActionButton(
-            <Button
-              variant="contained"
-              onClick={handleSendRequest}
-              sx={{
-                textTransform: "none",
-                backgroundColor: "#FDC700",
-                "&:hover": { backgroundColor: "#f1d779" },
-              }}
-            >
-              Invite to match
-            </Button>
-          );
-          // setActionButton(null); // Başqa komandadadır və kapitan deyil
-        }
-      }
-    } else {
-      if (!isMember) {
         setActionButton(
           <Button
             variant="contained"
-            onClick={() => setOpenInviteModal(true)}
+            onClick={leaveTeam}
             sx={{
               textTransform: "none",
-              backgroundColor: "#0076fdff",
-              "&:hover": { backgroundColor: "#1841f7ff" },
+              backgroundColor: "#FDC700",
+              "&:hover": { backgroundColor: "#f1d779" },
             }}
           >
-            Invite to match
+            Leave Team
           </Button>
         );
       }
-      // Komandası yoxdur
+      return;
     }
-  }, [isMember]);
+
+    // Case 2: You are captain of a different team
+    if (isCaptain && !isViewingOwnTeam) {
+      setActionButton(
+        <button
+          className="text-1xl font-bold text-white rounded-[5px] cursor-pointer bg-blue-600 p-1.5"
+          onClick={() => setOpenInviteModal(true)}
+        >
+          Invite to Match
+        </button>
+      );
+      return;
+    }
+
+    // Case 3: You are member of another team (not captain)
+    if (myTeam && !isViewingOwnTeam) {
+      setActionButton(null); // You cannot join other teams
+      return;
+    }
+
+    // Case 4: You are not in any team
+    if (!myTeam) {
+      setActionButton(
+        <Button
+          variant="contained"
+          onClick={handleSendRequest}
+          sx={{
+            textTransform: "none",
+            backgroundColor: "#FDC700",
+            "&:hover": { backgroundColor: "#f1d779" },
+          }}
+        >
+          Join Team
+        </Button>
+      );
+      return;
+    }
+  }, [teamData, userLoggedIn]);
+
 
   return (
     <div
