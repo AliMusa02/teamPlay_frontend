@@ -1,6 +1,20 @@
 import React from "react";
 import headerImage from "../../../assets/images/player.webp";
+import { isAuthenticated } from "../../../services/authService";
+import { useNavigate } from "react-router-dom";
+
 const HeaderSection = () => {
+  const loggedIn = isAuthenticated();
+
+  const navigate = useNavigate()
+
+  const navigateGetStarted = () => {
+    if (loggedIn) {
+      navigate('/teams')
+    } else {
+      navigate('/login')
+    }
+  }
   return (
     <section className="w-full min-h-screen bgImageset px-6 md:px-12 py-12 flex items-center justify-center">
       <div className="flex flex-col-reverse lg:flex-row items-center pt-10 justify-between gap-12 max-w-7xl w-full">
@@ -28,7 +42,7 @@ const HeaderSection = () => {
           <p className="text-lg text-white/80 max-w-md mx-auto lg:mx-0 ">
             Create, manage, and grow your football community with one platform.
           </p>
-          <button className="bg-yellow-400 text-blue-900 px-6 py-3 rounded-full font-semibold hover:bg-yellow-300 transition shadow-md">
+          <button onClick={navigateGetStarted} className="bg-yellow-400 text-blue-900 cursor-pointer px-6 py-3 rounded-full font-semibold hover:bg-yellow-300 transition shadow-md">
             Get Started
           </button>
         </div>
