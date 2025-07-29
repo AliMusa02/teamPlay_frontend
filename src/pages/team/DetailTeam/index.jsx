@@ -42,6 +42,8 @@ const TeamDetail = () => {
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
   const [errors, setErrors] = useState({});
+  const [memberCount, setMemberCount] = useState(0);
+
 
   const [matches, setMatches] = useState([]);
 
@@ -76,6 +78,26 @@ const TeamDetail = () => {
     const { data, loading } = await fetchTeamData(id);
     setTeamData(data);
     setLoading(loading);
+
+    if (data?.members) {
+      setMemberCount(data.members.length);
+    }
+
+    // if (memberCount > 5) {
+    //   setActionButton(
+    //     <Button
+    //       variant="contained"
+    //       onClick={handleSendRequest}
+    //       sx={{
+    //         textTransform: "none",
+    //         backgroundColor: "#FDC700",
+    //         "&:hover": { backgroundColor: "#f1d779" },
+    //       }}
+    //     >
+    //       Join Team
+    //     </Button>
+    //   );
+    // }
 
     teamData?.members?.map((member) => {
       if (member.user.id === userLoggedIn.data.user.id) {
@@ -244,6 +266,8 @@ const TeamDetail = () => {
     }
   };
 
+
+
   // GET TEAMS
   const fetchMatches = async () => {
     try {
@@ -363,7 +387,7 @@ const TeamDetail = () => {
 
   useEffect(() => {
     if (!teamData || !userLoggedIn?.data?.user) return;
-
+    const teamIsFull = teamData?.members?.length >= 5
     const loggedInUser = userLoggedIn.data.user;
     const myTeam = loggedInUser.team; // Your team (can be null)
     const isViewingOwnTeam = myTeam?.id === teamData.id;
@@ -403,6 +427,7 @@ const TeamDetail = () => {
       return;
     }
 
+
     // Case 2: You are captain of a different team
     if (isCaptain && !isViewingOwnTeam) {
       setActionButton(
@@ -423,7 +448,7 @@ const TeamDetail = () => {
     }
 
     // Case 4: You are not in any team
-    if (!myTeam) {
+    if (!teamIsFull && !myTeam) {
       setActionButton(
         <Button
           variant="contained"
@@ -493,6 +518,10 @@ const TeamDetail = () => {
         {/* Members */}
         <div className="mb-8">
           <h3 className="text-xl font-semibold text-gray-800 mb-3">Members</h3>
+          <p className="text-gray-600 font-semibold text-m mb-2">
+            Members: {teamData.members?.length}/5
+          </p>
+          {memberCount >= 5 && <div className="bg-red-500 h-5 text-white flex items-center justify-center mb-3 p-3">Team is full</div>}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {teamData.members?.map((member) => (
               <div
