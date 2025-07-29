@@ -17,6 +17,7 @@ const userSlice = createSlice({
       state.token = action.payload.token;
     },
     updateUserInfo(state, action) {
+      // state.user = action.payload;
       state.user.data.user = {
         ...state.user.data.user,
         ...action.payload,

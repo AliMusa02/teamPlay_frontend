@@ -5,10 +5,11 @@ import { fetchTeamData } from "../../../API/teamDetailService";
 import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
 import bgImage from "../../../assets/images/bgIMage.webp";
 import Loader from "../../../components/common/Loader";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { api } from "../../../API/const";
 import CustomAlert from "../../../components/ui/customAlert";
 import { IoLocationOutline } from "react-icons/io5";
+import { login } from "../../../redux/userSlice";
 
 const TeamDetail = () => {
   const [selectedUser, setSelectedUser] = useState(null);
@@ -17,7 +18,7 @@ const TeamDetail = () => {
   const { id } = useParams();
   const [teamData, setTeamData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const { user_id, user, isCapitan } = useSelector((state) => state.user);
+  const { user_id, isCapitan } = useSelector((state) => state.user);
   const [openInviteModal, setOpenInviteModal] = useState(false);
   const [matchDate, setMatchDate] = useState("");
   const [matchTime, setMatchTime] = useState("");
@@ -32,6 +33,10 @@ const TeamDetail = () => {
     "18:00",
     "19:00",
   ];
+  console.log(userLoggedIn.data?.user, "first");
+  // console.log(user.data?.user, "second");
+  const dispatch = useDispatch()
+
   const [venues, setVenues] = useState([]);
   const [selectedVenue, setSelectedVenue] = useState("");
   const [message, setMessage] = useState("");
@@ -40,6 +45,7 @@ const TeamDetail = () => {
 
   const [matches, setMatches] = useState([]);
 
+  // GET ALL STADIUMS
   const fetchVenues = async () => {
     try {
       const res = await api("/api/venues/", {
@@ -54,6 +60,7 @@ const TeamDetail = () => {
     }
   };
 
+  // CUSTOM TOAST
   const [notif, setNotif] = useState({
     open: false,
     type: "success", // "error" da ola bilər
@@ -64,6 +71,7 @@ const TeamDetail = () => {
     fetchVenues();
   }, []);
 
+  //GET TEAMS
   const getTeam = async () => {
     const { data, loading } = await fetchTeamData(id);
     setTeamData(data);
@@ -100,6 +108,25 @@ const TeamDetail = () => {
     setMessage(e.target.value);
     setErrors((prev) => ({ ...prev, message: "" }));
   };
+
+  // SET USER
+  const fetchAndSetUser = async () => {
+    try {
+      const res = await api(`/api/users/${userLoggedIn.data?.user.id}/`, { method: "GET" }); // Adjust URL to match your backend
+      if (res.ok) {
+        console.log(res.data);
+
+        const token = localStorage.getItem("accessToken");
+        dispatch(login({ data: res.data, token }));
+      }
+    } catch (error) {
+      console.error("Failed to fetch user info:", error);
+    }
+  };
+
+
+
+  //SEND INVITATION
   const sendInvitation = async () => {
     const newErrors = {};
 
@@ -168,7 +195,7 @@ const TeamDetail = () => {
           type: "success",
           message: "You Joined Successfully!",
         });
-
+        await fetchAndSetUser()
         getTeam();
         // window.location.reload();
 
@@ -196,13 +223,17 @@ const TeamDetail = () => {
         method: "DELETE",
       });
       if (res.ok) {
+
         // alert("Leaved team successfully");
-        getTeam();
         setNotif({
           open: true,
           type: "success",
           message: "You Left Successfully!",
         });
+        await fetchAndSetUser()
+        getTeam();
+        // window.location.reload();
+
         // navigate("/teams");
         // window.location.reload();
       } else {
@@ -341,6 +372,8 @@ const TeamDetail = () => {
     );
     const isCaptain = loggedInUser.id === myTeam?.captain;
 
+    console.log(isMemberOfViewingTeam, "is member");
+
     // Case 1: You are viewing your own team
     if (isViewingOwnTeam) {
       if (isCaptain) {
@@ -352,7 +385,7 @@ const TeamDetail = () => {
             Update Team
           </button>
         );
-      } else {
+      } else if (isMemberOfViewingTeam) {
         setActionButton(
           <Button
             variant="contained"
