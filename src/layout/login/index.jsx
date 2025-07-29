@@ -157,10 +157,10 @@ const Register = () => {
               type="submit"
               className="w-full bg-blue-700 text-white py-3 rounded-md hover:bg-blue-800 transition"
             >
-              Log in
-              {/* {
+              {/* Log in */}
+              {
                 loading ? "Loading..." : "Log in"
-              } */}
+              }
 
             </button>
           </form>
