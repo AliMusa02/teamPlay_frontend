@@ -48,7 +48,6 @@ const Register = () => {
     }
     try {
       setLoading(true);
-
       const response = await fetch(`${API_URL}/api/token/get/`, {
         method: "POST",
         headers: {
@@ -62,15 +61,16 @@ const Register = () => {
 
       const result = await response.json();
       if (response.ok) {
-        // setNotif({
-        //   open: true,
-        //   type: "success",
-        //   message: "Login Successful!",
-        // });
+        setNotif({
+          open: true,
+          type: "success",
+          message: "Login Successful!",
+        });
         setFormData({
           email: "",
           password: "",
         });
+
         const decodeJwt = (token) => {
           try {
             const payload = JSON.parse(atob(token.split(".")[1]));
@@ -114,7 +114,8 @@ const Register = () => {
       setLoading(false);
     }
   };
-  return !loading ? (
+  // !loading ? 
+  return (
     <div className="flex items-center justify-center w-full min-h-screen bg-[#0019a9] px-4">
       <div className="flex flex-col md:flex-row w-full max-w-6xl shadow-2xl rounded-lg overflow-hidden bg-white md:bg-transparent">
         {/* Left Panel */}
@@ -157,6 +158,10 @@ const Register = () => {
               className="w-full bg-blue-700 text-white py-3 rounded-md hover:bg-blue-800 transition"
             >
               Log in
+              {/* {
+                loading ? "Loading..." : "Log in"
+              } */}
+
             </button>
           </form>
 
@@ -184,11 +189,12 @@ const Register = () => {
         onClose={() => setNotif((prev) => ({ ...prev, open: false }))}
       />
     </div>
-  ) : (
-    <div>
-      <Loader loader={loading} />
-    </div>
-  );
+  )
+  // : (
+  //   <div>
+  //     <Loader loader={loading} />
+  //   </div>
+  // );
 };
 
 export default Register;
