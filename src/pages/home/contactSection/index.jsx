@@ -132,7 +132,7 @@ export default function ContactSection() {
             out to us anytime.
           </p>
           <ul className="space-y-2 text-white/70">
-            <li>📧 Email: contact@aliteam.com</li>
+            <li>📧 Email: contact@teamplay.com</li>
             <li>📍 Location: London, UK</li>
             <li>☎️ Phone: +44 1234 567890</li>
           </ul>

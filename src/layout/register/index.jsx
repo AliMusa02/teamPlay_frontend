@@ -132,10 +132,10 @@ const Register = () => {
         <div className="w-full md:w-2/5 bg-white flex flex-col justify-center px-8 sm:px-12 py-12 md:rounded-bl-[50px]">
           <h1 className="text-3xl font-bold text-gray-800 mb-2 text-center">
             <span className="text-gray-500 font-medium">We are </span>
-            <span className="text-blue-700">AliTeam</span>
+            <span className="text-blue-700">TeamPlay</span>
           </h1>
           <p className="text-gray-600 mb-6 text-center text-sm sm:text-base">
-            Welcome back, please sign in using your AliTeam ID
+            Welcome back, please sign in using your TeamPlay ID
           </p>
 
           <form className="space-y-4" onSubmit={handleSubmit}>

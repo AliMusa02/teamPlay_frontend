@@ -10,7 +10,7 @@ const Footer = () => {
       <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
         {/* Logo və ad */}
         <div className="text-center md:text-left">
-          <h2 className="text-2xl font-extrabold text-[#fdc700]">AliTeam</h2>
+          <h2 className="text-2xl font-extrabold text-[#fdc700]">TeamPlay</h2>
           <p className="text-sm text-white/70 mt-2">
             Build your dream football team. Passion. Power. Play.
           </p>
@@ -80,7 +80,7 @@ const Footer = () => {
 
       {/* Alt hissə */}
       <div className="text-center text-base text-white/40 mt-8">
-        © {new Date().getFullYear()} AliTeam. All rights reserved.
+        © {new Date().getFullYear()} TeamPlay. All rights reserved.
       </div>
     </footer>
   );

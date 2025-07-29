@@ -36,7 +36,7 @@ const HeaderSection = () => {
             <span className="block">Build Your</span>
             <span className="block text-yellow-400">Dream Team</span>
             <span className="block">
-              with <span className="text-cyan-400">AliTeam</span>
+              with <span className="text-cyan-400">TeamPlay</span>
             </span>
           </h1>
           <p className="text-lg text-white/80 max-w-md mx-auto lg:mx-0 ">

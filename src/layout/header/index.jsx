@@ -68,7 +68,7 @@ function Header(props) {
         }}
         className="text-[#FDC700] "
       >
-        ALITeam
+        TeamPlay
       </Typography>
       <Divider />
       <Toolbar className="flex items-center justify-between w-full bg-transparent ">
@@ -195,7 +195,7 @@ function Header(props) {
               }}
               className="text-[#FDC700] "
             >
-              ALITeam
+              TeamPlay
             </Typography>
           </Link>
 
