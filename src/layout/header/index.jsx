@@ -265,11 +265,11 @@ function Header(props) {
                     open={isOpen}
                     onClose={() => setIsOpen(false)}
                     top={"60px"}
-                    right={"10px"}
+                    right={"35px"}
                   >
                     <div className="p-2 pt-5">
                       <p className="text-base font-medium">
-                        Welcome {username.name}
+                        Welcome <span className="font-bold text-blue-500">{username.name}</span>
                       </p>
                       <div className="flex flex-col gap-2 mt-4">
                         <button

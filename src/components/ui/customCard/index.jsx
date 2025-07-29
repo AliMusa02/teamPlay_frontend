@@ -51,7 +51,7 @@ const CustomCard = ({ blog, fetchBlogs }) => {
   const timeAgo = moment.utc(blog.created_at).local().fromNow();
   return (
     <>
-      <div class="relative   flex flex-col text-gray-700 bg-white shadow-md bg-clip-border rounded-xl w-75 md:w-95 hover:scale-102 transition-transform duration-300">
+      <div class="relative flex flex-col text-gray-700 bg-white shadow-md bg-clip-border rounded-xl w-75 md:w-95 hover:scale-102 transition-transform duration-300">
         <div class="relative mx-4 mt-4 overflow-hidden text-gray-700 bg-white bg-clip-border rounded-xl h-96">
           <img
             src={blog.post_pic}
@@ -90,7 +90,7 @@ const CustomCard = ({ blog, fetchBlogs }) => {
               </button>
             )}
           </div>
-          <p class="block font-sans text-sm antialiased font-normal leading-normal text-gray-700 opacity-75 mb-2">
+          <p class="block font-sans text-sm antialiased font-normal w-[100%] leading-normal text-gray-700 opacity-75 mb-2">
             {blog.content}
           </p>
           <p className="flex items-center gap-1 mb-1">

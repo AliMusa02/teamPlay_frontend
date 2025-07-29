@@ -23,6 +23,7 @@ const TeamCard = ({ team, fetchTeams }) => {
         // width: "380px",
         // maxWidth: 500,
         mx: "auto",
+        // height: "540px",
         my: 2,
       }}
       className="w-75 md:w-95"
@@ -46,7 +47,7 @@ const TeamCard = ({ team, fetchTeams }) => {
           {team.team_name}
         </Typography>
         <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-          <strong>About:</strong> {team.about}
+          <strong>About:</strong> {team.about.length > 40 ? team.about.substring(0, 40) + "..." : team.about}
         </Typography>
         <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
           <strong>Captain:</strong> {team.captain_username}
