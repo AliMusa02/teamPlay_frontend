@@ -103,28 +103,32 @@ const Register = () => {
       }
 
       if (!response.ok) {
+        const firstError =
+          result?.details?.email?.[0] ||
+          result?.details?.user_name?.[0] ||
+          result?.details?.password?.[0] ||
+          result?.error ||
+          "Something went wrong!";
+
         setNotif({
           open: true,
           type: "error",
-          message:
-            result?.details?.email?.[0] ||
-            result?.details?.user_name?.[0] ||
-            result?.error ||
-            "Something went wrong!",
+          message: firstError,
         });
         return;
       }
     } catch (error) {
-      console.error("Unexpected error:", error);
+      console.error("Unexpected error:", error.details);
       setNotif({
         open: true,
         type: "error",
-        message: "Unexpected error occurred.",
+        message: error.details,
       });
     } finally {
       setLoading(false);
     }
   };
+
   return !loading ? (
     <div className="flex items-center justify-center w-full min-h-screen bg-[#0019a9] px-4">
       <div className="flex flex-col md:flex-row w-full max-w-6xl shadow-2xl rounded-lg overflow-hidden bg-white md:bg-transparent">
