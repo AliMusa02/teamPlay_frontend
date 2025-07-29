@@ -66,10 +66,10 @@ const Register = () => {
           type: "success",
           message: "Login Successful!",
         });
-        setFormData({
-          email: "",
-          password: "",
-        });
+        // setFormData({
+        //   email: "",
+        //   password: "",
+        // });
 
         const decodeJwt = (token) => {
           try {
